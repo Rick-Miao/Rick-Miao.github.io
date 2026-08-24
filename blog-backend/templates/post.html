@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ post.title }} | Rick Miao</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='blog.css') }}"
+    >
+</head>
+
+<body>
+
+    <header>
+        <nav>
+
+            <a href="/" class="logo">
+                Rick Miao
+            </a>
+
+            <div class="nav-links">
+
+                <a href="https://rick-miao.github.io/">
+                    Portfolio
+                </a>
+
+                <a href="/">
+                    Blog
+                </a>
+
+            </div>
+
+        </nav>
+    </header>
+
+
+    <main class="post-page">
+
+        <article>
+
+            <a href="/" class="back-link">
+                ← Back to Blog
+            </a>
+
+            <p class="post-date">
+                {{ post.created_at.strftime("%B %d, %Y") }}
+            </p>
+
+            <h1 class="post-title">
+                {{ post.title }}
+            </h1>
+
+            <div class="post-content">
+                {{ post.content }}
+            </div>
+
+        </article>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            &copy; 2026 Rick Miao
+        </p>
+
+    </footer>
+
+</body>
+
+</html>
