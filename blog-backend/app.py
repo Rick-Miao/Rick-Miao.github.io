@@ -18,11 +18,21 @@ ADMIN_PASSWORD_HASH = os.environ["ADMIN_PASSWORD_HASH"]
 app = Flask(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "instance" / "blog.db"
+data_dir = Path(
+    os.environ.get(
+        "DATA_DIR",
+        BASE_DIR / "instance"
+    )
+)
+data_dir.mkdir(
+    parents=True,
+    exist_ok=True
+)
+DB_PATH = data_dir / "blog.db"
 
-DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_PATH.as_posix()}"
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    f"sqlite:///{DB_PATH.as_posix()}"
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SECRET_KEY"] = os.environ["SECRET_KEY"]
 app.config["SESSION_COOKIE_HTTPONLY"] = True
@@ -59,6 +69,8 @@ class Post(db.Model):
     def __repr__(self):
         return f"<Post {self.title}>"
 
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def home():
